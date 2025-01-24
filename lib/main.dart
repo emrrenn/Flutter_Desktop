@@ -12,7 +12,31 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Unit Information',
-      home: Scaffold(
+      home: const UnitForm(),
+    );
+  }
+}
+
+class UnitForm extends StatefulWidget {
+  const UnitForm({super.key});
+
+  @override
+  State<UnitForm> createState() => _UnitFormState();
+}
+
+class _UnitFormState extends State<UnitForm> {
+  //Form icin kontroller
+  final TextEditingController widthController = TextEditingController();
+  final TextEditingController lengthController = TextEditingController();
+  final TextEditingController heightController = TextEditingController();
+  final TextEditingController weightController = TextEditingController();
+
+  //Secilen Paketleme turu
+  String selectedPackaging = 'Box';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
         appBar: AppBar(
           title: const Text("Unit Information"),
         ),
@@ -34,12 +58,30 @@ class MyApp extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   ElevatedButton(
-                    onPressed: () {}, 
+                    onPressed: () {
+                      setState(() {
+                        selectedPackaging = "Box";
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: selectedPackaging == "Box"
+                      ? Colors.blue
+                      :Colors.grey,
+                    ),
                     child: const Text('Box'),
                   ),
                   const SizedBox(width: 10),
                   ElevatedButton(
-                    onPressed: () {}, 
+                    onPressed: () {
+                      setState(() {
+                        selectedPackaging = "Bag";
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: selectedPackaging == "Bag"
+                      ? Colors.blue
+                      : Colors.grey,
+                    ),
                     child: const Text('Bag')
                   ),
                 ],
@@ -54,6 +96,7 @@ class MyApp extends StatelessWidget {
                 children: [
                   Flexible(
                     child: TextField(
+                      controller: widthController,
                       decoration: const InputDecoration(
                         labelText: 'Width',
                         border: OutlineInputBorder(),
@@ -63,6 +106,17 @@ class MyApp extends StatelessWidget {
                   const SizedBox(width: 10),
                   Flexible(
                     child: TextField(
+                      controller: lengthController,
+                      decoration: const InputDecoration(
+                        labelText: 'Length',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Flexible(
+                    child: TextField(
+                      controller: heightController,
                       decoration: const InputDecoration(
                         labelText: 'Height',
                         border: OutlineInputBorder(),
@@ -78,6 +132,7 @@ class MyApp extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               TextField(
+                controller: weightController,
                 decoration: const InputDecoration(
                   labelText: 'Weight',
                   border: OutlineInputBorder(),
@@ -88,19 +143,33 @@ class MyApp extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
-                    onPressed: () {}, 
+                    onPressed: () {
+                      //Geri adim islemleri
+                    }, 
                     child: const Text('Previous Step'),
                   ),
                   ElevatedButton(
-                    onPressed: () {}, 
+                    onPressed: () {
+                      //Kullanicidan alinan degerler
+                      String width = widthController.text;
+                      String length = lengthController.text;
+                      String height = heightController.text;
+                      String weight = weightController.text;
+
+                      //Konsola Yazdirma
+                      print("Selected Packaging: $selectedPackaging");
+                      print("Width: $width");
+                      print("Length: $length");
+                      print("Height: $height");
+                      print("Weight: $weight");
+                    }, 
                     child: const Text('Next Step'),
                   ),
                 ],
-              )
+              ),
             ],
           ),
-        )
-      ),
+        ),
     );
   }
 }
