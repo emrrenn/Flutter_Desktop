@@ -156,12 +156,19 @@ class _UnitFormState extends State<UnitForm> {
                       String height = heightController.text;
                       String weight = weightController.text;
 
-                      //Konsola Yazdirma
-                      print("Selected Packaging: $selectedPackaging");
-                      print("Width: $width");
-                      print("Length: $length");
-                      print("Height: $height");
-                      print("Weight: $weight");
+                      //Yeni sayfaya gec
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SummaryPage(
+                            packaging: selectedPackaging, 
+                            width: width, 
+                            length: length, 
+                            height: height, 
+                            weight: weight
+                          ), 
+                        ),
+                      );
                     }, 
                     child: const Text('Next Step'),
                   ),
@@ -170,6 +177,57 @@ class _UnitFormState extends State<UnitForm> {
             ],
           ),
         ),
+    );
+  }
+}
+
+class SummaryPage extends StatelessWidget {
+  final String packaging;
+  final String width;
+  final String length;
+  final String height;
+  final String weight;
+
+  const SummaryPage({
+    super.key,
+    required this.packaging,
+    required this.width,
+    required this.length,
+    required this.height,
+    required this.weight,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Summary'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Summary of the Information:',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            Text('Packaging Type: $packaging'),
+            Text('Width: $width'),
+            Text('Length: $length'),
+            Text('Height: $height'),
+            Text('Weight: $weight'),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              }, 
+              child: const Text('Back'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
